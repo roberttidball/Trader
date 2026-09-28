@@ -34,7 +34,6 @@ public sealed class FXMacroDataClient
     public Task<string> RiskSentimentAsync(int? limit = null, int? offset = null, CancellationToken cancellationToken = default) => GetAsync(Page("/risk_sentiment", limit, offset), cancellationToken);
     public Task<string> NewsAsync(string currency, CancellationToken cancellationToken = default) => GetAsync($"/news/{Normalize(currency)}", cancellationToken);
     public Task<string> PressReleasesAsync(string currency, CancellationToken cancellationToken = default) => GetAsync($"/press-releases/{Normalize(currency)}", cancellationToken);
-    public Task<string> CentralBankersAsync(string currency, CancellationToken cancellationToken = default) => GetAsync($"/central_bankers/{Normalize(currency)}", cancellationToken);
 
     private async Task<string> GetAsync(string path, CancellationToken cancellationToken)
     {
