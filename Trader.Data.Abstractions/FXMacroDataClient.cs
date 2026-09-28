@@ -37,8 +37,12 @@ public sealed class FXMacroDataClient
 
     private async Task<string> GetAsync(string path, CancellationToken cancellationToken)
     {
-        var query = string.IsNullOrWhiteSpace(_apiKey) ? string.Empty : "?api_key=" + Uri.EscapeDataString(_apiKey);
-        using var response = await _httpClient.GetAsync(_baseUrl + path + query, cancellationToken).ConfigureAwait(false);
+        using var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + path);
+        if (!string.IsNullOrWhiteSpace(_apiKey))
+        {
+            request.Headers.Add("X-API-Key", _apiKey);
+        }
+        using var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
